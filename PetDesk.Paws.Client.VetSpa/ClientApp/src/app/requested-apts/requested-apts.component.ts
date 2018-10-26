@@ -25,12 +25,19 @@ export class RequestedAppointmentsComponent implements OnInit{
 
   }
 
-  ngOnInit() : void {
+  async ngOnInit() : Promise<void> {
 
     this._hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(this._baseUrl + '/appointmentHub')
       .configureLogging(signalR.LogLevel.Information)
       .build();
+
+
+    this._hubConnection.on('LoadRequestedAppointmentsEvent', (appointments: Appointment []) => {
+      for (let appointment of appointments) {
+        this.appointments.set(appointment.appointmentId, appointment);
+      }
+    });
 
     this._hubConnection.on('AppointmentRequestedEvent', (appointment: Appointment) => {
       this.appointments.set(appointment.appointmentId,appointment);
@@ -44,8 +51,10 @@ export class RequestedAppointmentsComponent implements OnInit{
       this.appointments.delete(appointment.appointmentId);
     });
 
-    this._hubConnection.start().catch(err => console.error(err.toString()));
+    await this._hubConnection.start().catch(err => console.error(err.toString()));
 
+    //load apts last
+    this.loadAppointments();
   }
 
   public appointmentConfirmed(appointment: Appointment) {
@@ -54,7 +63,11 @@ export class RequestedAppointmentsComponent implements OnInit{
     }
   }
 
-
+  private  loadAppointments() {
+    if (this._hubConnection) {
+      this._hubConnection.invoke('LoadAppointmentsCommand', "Requested");
+    }
+  }
 
   getValues(): Array<Appointment> {
     return Array.from(this.appointments.values());

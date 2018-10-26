@@ -13,5 +13,11 @@ namespace PetDesk.Paws.Client.VetSpa.ActorModels.Abstractions
         void AppointmentConfirmedEvent(IAppointment appointment);
 
         void AppointmentRescheduledEvent(IAppointment appointment);
+
+        void LoadRescheduledAppointmentsEvent(IEnumerable<IAppointment> appointments);
+
+        void LoadConfirmedAppointmentsEvent(IEnumerable<IAppointment> appointments);
+
+        void LoadRequestedAppointmentsEvent(IEnumerable<IAppointment> appointments);
     }
 }

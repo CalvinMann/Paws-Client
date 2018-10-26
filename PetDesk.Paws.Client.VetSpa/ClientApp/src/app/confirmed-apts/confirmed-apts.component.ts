@@ -18,12 +18,18 @@ export class ConfirmedAppointmentsComponent implements OnInit {
 
   }
 
-  ngOnInit() : void {
+  async ngOnInit(): Promise<void> {
 
     this._hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(this._baseUrl + '/appointmentHub')
       .configureLogging(signalR.LogLevel.Information)
       .build();
+
+    this._hubConnection.on('LoadConfirmedAppointmentsEvent', (appointments: Appointment[]) => {
+      for (let appointment of appointments) {
+        this.appointments.set(appointment.appointmentId, appointment);
+      }
+    });
 
     this._hubConnection.on('AppointmentConfirmedEvent', (appointment: Appointment) => {
       //This is where we add a row to the view
@@ -31,8 +37,15 @@ export class ConfirmedAppointmentsComponent implements OnInit {
 
     });
 
-    this._hubConnection.start().catch(err => console.error(err.toString()));
+    await this._hubConnection.start().catch(err => console.error(err.toString()));
 
+    this.loadAppointments();
+  }
+
+  private loadAppointments() {
+    if (this._hubConnection) {
+      this._hubConnection.invoke('LoadAppointmentsCommand', "Confirmed");
+    }
   }
 
   getValues(): Array<Appointment> {

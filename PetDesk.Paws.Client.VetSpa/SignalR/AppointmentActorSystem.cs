@@ -36,6 +36,7 @@ namespace PetDesk.Paws.Client.VetSpa.SignalR
 
         private void Init(string controllerIP)
         {
+            //Uncomment to use the service to store actors
 
             //AppointmentController =
             //    _actorSystem.ActorSelection(controllerIP)

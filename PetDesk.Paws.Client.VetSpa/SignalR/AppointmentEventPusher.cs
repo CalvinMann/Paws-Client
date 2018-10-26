@@ -35,5 +35,20 @@ namespace PetDesk.Paws.Client.VetSpa.SignalR
         {
             _hubContext.Clients.All.SendAsync("AppointmentRescheduledEvent", appointment);
         }
+
+        public void LoadRequestedAppointmentsEvent(IEnumerable<IAppointment> appointments)
+        {
+            _hubContext.Clients.All.SendAsync("LoadRequestedAppointmentsEvent", appointments);
+        }
+
+        public void LoadConfirmedAppointmentsEvent(IEnumerable<IAppointment> appointments)
+        {
+            _hubContext.Clients.All.SendAsync("LoadConfirmedAppointmentsEvent", appointments);
+        }
+
+        public void LoadRescheduledAppointmentsEvent(IEnumerable<IAppointment> appointments)
+        {
+            _hubContext.Clients.All.SendAsync("LoadRescheduledAppointmentsEvent", appointments);
+        }
     }
 }

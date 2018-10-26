@@ -37,7 +37,12 @@ namespace PetDesk.Paws.Client.VetSpa.SignalR
 
         }
 
+        public void LoadAppointmentsCommand(string appointmentType)
+        {
+            _appointmentActorSystem.SignalRBridge.Tell(new LoadAppointmentsCommand(appointmentType),
+                _appointmentActorSystem.AppointmentController);
 
+        }
 
 
 

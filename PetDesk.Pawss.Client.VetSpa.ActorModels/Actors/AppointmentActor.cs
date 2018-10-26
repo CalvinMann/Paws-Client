@@ -18,8 +18,7 @@ namespace PetDesk.Paws.Client.VetSpa.ActorModels.Actors
             AppointmentType = appointment.AppointmentType;
             CreatedDateTime = appointment.CreatedDateTime;
             RequestDateTime = appointment.RequestDateTime;
-            User = appointment.User;
-            Animal = appointment.Animal;
+
 
             //Create the user and animal actors 
 
@@ -32,6 +31,9 @@ namespace PetDesk.Paws.Client.VetSpa.ActorModels.Actors
               Props.Create(
                   () => new AnimalActor(appointment.Animal)
               ));
+
+            User = userActor as IUser;
+            Animal = animalActor as IAnimal;
 
         }
 

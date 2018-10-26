@@ -34,6 +34,9 @@ namespace PetDesk.Paws.Client.VetSpa.ActorModels.Actors
             Receive<AppointmentRescheduledCommand>(
             message => _appointmentController.Tell(message));
 
+            Receive<LoadAppointmentsCommand>(
+           message => _appointmentController.Tell(message));
+
             #endregion
 
             #region Events
@@ -52,6 +55,21 @@ namespace PetDesk.Paws.Client.VetSpa.ActorModels.Actors
              message => {
                  _appointmentEventPusher.AppointmentRescheduledEvent(message.Appointment);
              });
+
+            Receive<LoadRequestedAppointmentsEvent>(
+             message => {
+                 _appointmentEventPusher.LoadRequestedAppointmentsEvent(message.Appointments);
+             });
+
+            Receive<LoadConfirmedAppointmentsEvent>(
+           message => {
+               _appointmentEventPusher.LoadConfirmedAppointmentsEvent(message.Appointments);
+           });
+
+            Receive<LoadRescheduledAppointmentsEvent>(
+           message => {
+               _appointmentEventPusher.LoadRescheduledAppointmentsEvent(message.Appointments);
+           });
 
             #endregion
         }
