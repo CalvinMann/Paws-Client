@@ -1,0 +1,26 @@
+<h1>Rescheduled Apts</h1>
+
+<table class='table' *ngIf="appointments">
+  <thead>
+    <tr>
+      <th> Id</th>
+      <th> Type</th>
+      <th> Requested Date</th>
+      <th> Client Name</th>
+      <th> Pateint Name</th>
+      <th> Pateint Species</th>
+      <th> Pateint Breed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let appointment of getValues()">
+      <td>{{ appointment.appointmentId }}</td>
+      <td>{{ appointment.appointmentType }}</td>
+      <td>{{ appointment.requestedDatetime }}</td>
+      <td>{{ appointment.user.firstName + " " + appointment.user.lastName }}</td>
+      <td>{{ appointment.animal.firstName }}</td>
+      <td>{{ appointment.animal.species }}</td>
+      <td>{{ appointment.animal.breed }}</td>
+    </tr>
+  </tbody>
+</table>
